@@ -37,7 +37,7 @@
 		F5CFACAB1B4D5F8B002B180F /* DRBudgetCounterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DRBudgetCounterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5CFACB01B4D5F8B002B180F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F5CFACB11B4D5F8B002B180F /* DRBudgetCounterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRBudgetCounterTests.swift; sourceTree = "<group>"; };
-		F5CFACBB1B4D604B002B180F /* DRBudgetCounter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRBudgetCounter.swift; sourceTree = "<group>"; };
+		F5CFACBB1B4D604B002B180F /* DRBudgetCounter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DRBudgetCounter.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,7 +61,6 @@
 		F5CFAC8D1B4D5F8A002B180F = {
 			isa = PBXGroup;
 			children = (
-				F5CFACBB1B4D604B002B180F /* DRBudgetCounter.swift */,
 				F5CFAC981B4D5F8B002B180F /* DRBudgetCounter */,
 				F5CFACAE1B4D5F8B002B180F /* DRBudgetCounterTests */,
 				F5CFAC971B4D5F8B002B180F /* Products */,
@@ -80,6 +79,7 @@
 		F5CFAC981B4D5F8B002B180F /* DRBudgetCounter */ = {
 			isa = PBXGroup;
 			children = (
+				F5CFACBB1B4D604B002B180F /* DRBudgetCounter.swift */,
 				F5CFAC9B1B4D5F8B002B180F /* AppDelegate.swift */,
 				F5CFAC9D1B4D5F8B002B180F /* ViewController.swift */,
 				F5CFAC9F1B4D5F8B002B180F /* Main.storyboard */,

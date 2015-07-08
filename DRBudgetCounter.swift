@@ -12,6 +12,14 @@ class DRBudgetCounter: UIView {
     let leftButton = UIButton()
     let rightButton = UIButton()
     let label = UILabel()
+    var value: Int = 0 {
+        // an observer of the changes made in value
+        didSet {
+            label.text = String(value)
+        }
+        // it is called before the value changes
+        willSet {}
+    }
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -30,6 +38,11 @@ class DRBudgetCounter: UIView {
         leftButton.backgroundColor = UIColor.redColor()
         label.backgroundColor = UIColor(red: 0, green: 0, blue: (255 / 255), alpha: 1)
         rightButton.backgroundColor = UIColor.redColor()
+        
+        // You can omit UIControlEvents and use .TouchDown
+        // colon (:) after the name of the function is necesary to indicate that the function receives parameters
+        leftButton.addTarget(self, action: "leftButtonTapped:", forControlEvents:  UIControlEvents.TouchDown)
+        rightButton.addTarget(self, action: "rightButtonTapped:", forControlEvents: .TouchDown)
     }
     
     override func layoutSubviews() {
@@ -44,6 +57,14 @@ class DRBudgetCounter: UIView {
         label.frame = CGRect(x: buttonWidth, y: 0, width: labelWidth, height: height)
         rightButton.frame = CGRect(x: labelWidth + buttonWidth, y: 0, width: buttonWidth, height: height)
         
-        
+    }
+    
+    /// MARK: Button functions
+    func leftButtonTapped(sender: UIButton) {
+        value -= 1
+    }
+    
+    func rightButtonTapped(sender: UIButton) {
+        value += 1
     }
 }
