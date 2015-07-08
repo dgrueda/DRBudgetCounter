@@ -6,12 +6,19 @@
 //  Copyright (c) 2015 Diego Rueda. All rights reserved.
 //
 
+/// TODO: add didSet for colors; add animations
 import UIKit
 
-class DRBudgetCounter: UIView {
+// @IBDesignable needed to allow the properties can be modified from storyboard
+// It needs to be public if you want to make also public properties and methods
+@IBDesignable public class DRBudgetCounter: UIView {
     let leftButton = UIButton()
     let rightButton = UIButton()
     let label = UILabel()
+    
+    // The initSetup() function runs after the properties has been created, so it is necesary
+    // to make the didSet and willSet for all properties that needs to change its value
+    // after running
     var value: Int = 0 {
         // an observer of the changes made in value
         didSet {
@@ -20,10 +27,34 @@ class DRBudgetCounter: UIView {
         // it is called before the value changes
         willSet {}
     }
+
+    /// Limits for the counter
+    // @IBInspectable needed to allow the var can be modified from storyboard
+    @IBInspectable public var leftLimit: Int = 0
+    @IBInspectable public var rightLimit: Int = 10
     
-    required init(coder aDecoder: NSCoder) {
+    /// Colors
+    @IBInspectable public var leftButtonBackgroundColor: UIColor = UIColor.redColor()
+    // Just for instructable purpouses: each color of UIColor must be between 0 and 1: number / 255
+    @IBInspectable public var labelBackgroundColor: UIColor = UIColor(red: 0, green: 0, blue: (255 / 255), alpha: 1)
+    @IBInspectable public var rightButtonBackgroundColor: UIColor = UIColor.redColor()
+    
+    @IBInspectable public var leftButtonTitleColor: UIColor = UIColor.whiteColor()
+    @IBInspectable public var labelColor: UIColor = UIColor.whiteColor()
+    @IBInspectable public var rigthButtonTitleColor: UIColor = UIColor.whiteColor()
+    
+    required public init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
+        initSetup()
+    }
+    
+    // Sometimes needed to fix some problems with Swift. Swift calls this init instead of the another one
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        initSetup()
+    }
+    
+    func initSetup() {
         let leftButtonText = "-"
         let rightButtonText = "+"
         
@@ -35,17 +66,24 @@ class DRBudgetCounter: UIView {
         addSubview(rightButton)
         addSubview(label)
         
-        leftButton.backgroundColor = UIColor.redColor()
-        label.backgroundColor = UIColor(red: 0, green: 0, blue: (255 / 255), alpha: 1)
-        rightButton.backgroundColor = UIColor.redColor()
+        // Sets the colors
+        leftButton.backgroundColor = leftButtonBackgroundColor
+        label.backgroundColor = labelBackgroundColor
+        rightButton.backgroundColor = rightButtonBackgroundColor
+        
+        leftButton.setTitleColor(leftButtonTitleColor, forState: .Normal)
+        label.textColor = labelColor
+        rightButton.setTitleColor(leftButtonTitleColor, forState: .Normal)
         
         // You can omit UIControlEvents and use .TouchDown
         // colon (:) after the name of the function is necesary to indicate that the function receives parameters
         leftButton.addTarget(self, action: "leftButtonTapped:", forControlEvents:  UIControlEvents.TouchDown)
         rightButton.addTarget(self, action: "rightButtonTapped:", forControlEvents: .TouchDown)
+        
+        label.text = String(value)
     }
     
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         var width = bounds.size.width
         var height = bounds.size.height
         
@@ -61,10 +99,14 @@ class DRBudgetCounter: UIView {
     
     /// MARK: Button functions
     func leftButtonTapped(sender: UIButton) {
-        value -= 1
+        if (value > leftLimit) {
+            value -= 1
+        }
     }
     
     func rightButtonTapped(sender: UIButton) {
-        value += 1
+        if (value < rightLimit) {
+            value += 1
+        }
     }
 }
