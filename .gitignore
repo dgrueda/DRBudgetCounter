@@ -1,6 +1,7 @@
 # Xcode
 #
-DRBudgetCounter.xcodeproj/
+DRBudgetCounter.xcodeproj
+
 build/
 *.pbxuser
 !default.pbxuser
