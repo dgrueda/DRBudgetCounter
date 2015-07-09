@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Diego Rueda. All rights reserved.
 //
 
-/// TODO: add didSet for colors; add animations
+/// TODO: add didSet for colors
 import UIKit
 
 // @IBDesignable needed to allow the properties can be modified from storyboard
@@ -42,6 +42,12 @@ import UIKit
     @IBInspectable public var leftButtonTitleColor: UIColor = UIColor.whiteColor()
     @IBInspectable public var labelColor: UIColor = UIColor.whiteColor()
     @IBInspectable public var rigthButtonTitleColor: UIColor = UIColor.whiteColor()
+    
+    /// Animation properties
+    
+    @IBInspectable public var animationDuration: NSTimeInterval = 0.1
+    private let labelDisplacement: CGFloat = 5
+    
     
     required public init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -81,6 +87,7 @@ import UIKit
         rightButton.addTarget(self, action: "rightButtonTapped:", forControlEvents: .TouchDown)
         
         label.text = String(value)
+        label.textAlignment = .Center
     }
     
     override public func layoutSubviews() {
@@ -98,15 +105,50 @@ import UIKit
     }
     
     /// MARK: Button functions
-    func leftButtonTapped(sender: UIButton) {
+    @objc private func leftButtonTapped(sender: UIButton) {
         if (value > leftLimit) {
             value -= 1
+            animateLabelToLeft()
+        }
+        else {
+            limitReached(sender)
         }
     }
     
-    func rightButtonTapped(sender: UIButton) {
+    @objc private func rightButtonTapped(sender: UIButton) {
         if (value < rightLimit) {
             value += 1
+            animateLabelToRight()
         }
+        else {
+            limitReached(sender)
+        }
+    }
+    
+    func animateLabelToLeft() {
+        animateLabel(self.labelDisplacement)
+    }
+    
+    func animateLabelToRight() {
+        animateLabel(-self.labelDisplacement)
+    }
+    
+    func animateLabel(displacement: CGFloat) {
+        UIView.animateWithDuration(animationDuration, animations: {
+            self.label.center.x -= displacement
+            },
+            completion: { _ in
+                self.label.center.x += displacement
+        })
+    }
+    
+    func limitReached(sender: UIButton) {
+        let backgroundColor: UIColor = sender.backgroundColor!
+        
+        UIView.animateWithDuration(animationDuration, animations: {
+            sender.backgroundColor = UIColor.blackColor()
+            }, completion: { _ in
+                sender.backgroundColor = backgroundColor
+        })
     }
 }
